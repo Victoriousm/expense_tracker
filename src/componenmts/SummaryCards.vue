@@ -1,3 +1,27 @@
+<script setup lang="ts">
+import { computed } from "vue";
+import { useIncome } from "../composables/useIcomeSaving";
+import { useExpense } from "../composables/useExpenses";
+
+const { income, savings } = useIncome();
+const { expenses } = useExpense();
+
+const totalExpenses = computed(() => {
+  return expenses.value.reduce((acc, item) => acc + item.amount, 0);
+});
+
+const totalBalance = computed(() => {
+  return income.value - totalExpenses.value - savings.value;
+});
+
+const formatCurrency = (val: number) => {
+  return val.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};
+</script>
+
 <template>
   <div
     class="w-full px-4 sm:px-6 lg:px-12 py-8 pt-48 sm:pt-0 lg:pt-20 max-w-[1600px] mx-auto lg:pb-2"
@@ -9,12 +33,12 @@
         <p
           class="text-sm lg:text-base font-bold text-gray-400 uppercase tracking-widest dark:text-gray-300"
         >
-          Total Balance
+          Current Balance
         </p>
         <p
           class="text-3xl lg:text-4xl xl:text-5xl font-black text-gray-900 mt-4 dark:text-white tabular-nums"
         >
-          K 9,450.00
+          K {{ formatCurrency(totalBalance) }}
         </p>
       </div>
 
@@ -29,7 +53,7 @@
         <p
           class="text-3xl lg:text-4xl xl:text-5xl font-black text-emerald-600 mt-4 dark:text-emerald-400 tabular-nums"
         >
-          K 3,200.00
+          K {{ formatCurrency(income) }}
         </p>
       </div>
 
@@ -44,7 +68,7 @@
         <p
           class="text-3xl lg:text-4xl xl:text-5xl font-black text-rose-600 mt-4 dark:text-rose-400 tabular-nums"
         >
-          K 1,150.00
+          K {{ formatCurrency(totalExpenses) }}
         </p>
       </div>
 
@@ -59,11 +83,9 @@
         <p
           class="text-3xl lg:text-4xl xl:text-5xl font-black text-blue-600 mt-4 dark:text-blue-400 tabular-nums"
         >
-          K 450.00
+          K {{ formatCurrency(savings) }}
         </p>
       </div>
     </div>
   </div>
 </template>
-
-<script setup lang="ts"></script>

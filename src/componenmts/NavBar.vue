@@ -1,13 +1,48 @@
+<script setup>
+import { ref } from "vue";
+import { useThemeContext } from "../composables/useThemeContext";
+import { useIncome } from "../composables/useIcomeSaving";
+
+const { isDark, toggleTheme } = useThemeContext();
+
+const { setIncome, setSavings, savings, income } = useIncome();
+
+const showModal = ref(false);
+const tempIncome = ref(0);
+const tempSavings = ref(0);
+
+const openModal = () => {
+  tempIncome.value = income.value;
+  showModal.value = true;
+};
+
+const saveAndClose = () => {
+  try {
+    setIncome(Number(tempIncome.value));
+
+    const updatedSavings = (savings.value || 0) + Number(tempSavings.value);
+
+    setSavings(updatedSavings);
+
+    tempSavings.value = 0;
+    showModal.value = false;
+  } catch (error) {
+    console.error("Failed to save finance settings:", error);
+  }
+};
+</script>
+
 <template>
-  <div>
+  <div class="relative">
     <nav
       class="dark:bg-slate-800 dark:border-gray-700 fixed top-0 left-0 w-full flex flex-col md:flex-row items-center justify-between px-4 py-3 md:px-8 md:py-4 bg-white font-bold border-gray-300 border-b-2 z-50 transition-colors"
     >
-      <div>
+      <div class="flex flex-col text-center md:text-left mb-3 md:mb-0">
         <span
-          class="font-black text-indigo-600 text-3xl dark:text-white uppercase"
-          >Expense Tracker</span
+          class="font-black text-indigo-600 text-2xl sm:text-3xl md:text-4xl lg:text-5xl dark:text-white leading-tight"
         >
+          EXPENSE TRACKER
+        </span>
         <p class="text-xs sm:text-sm text-gray-400 dark:text-gray-300">
           manage your finances with ease
         </p>
@@ -15,17 +50,17 @@
 
       <div class="flex items-center gap-4">
         <button
-          @click.stop="openModal"
+          @click="openModal"
           type="button"
-          class="bg-indigo-700 hover:bg-indigo-800 text-white px-5 py-2 rounded-lg font-bold z-[60] cursor-pointer"
+          class="bg-indigo-700 hover:bg-indigo-800 text-white px-3 py-1.5 sm:px-5 sm:py-2 rounded-lg text-sm sm:text-base transition-all shadow-md active:scale-95 cursor-pointer"
         >
-          Enter Income
+          Enter Income & Savings
         </button>
 
         <button
           @click="toggleTheme"
           type="button"
-          class="cursor-pointer text-2xl"
+          class="cursor-pointer text-xl sm:text-2xl hover:text-green-700 dark:hover:text-green-400 transition-all duration-200 active:scale-90 px-2 select-none"
         >
           {{ isDark ? "☀️" : "⏾" }}
         </button>
@@ -34,60 +69,63 @@
 
     <div
       v-if="showModal"
-      class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[999] p-4"
+      class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
+      @click.self="showModal = false"
     >
       <div
-        class="bg-white dark:bg-slate-800 p-8 rounded-3xl max-w-sm w-full shadow-2xl"
+        class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl max-w-sm w-full shadow-2xl border border-gray-100 dark:border-gray-700"
       >
-        <h3 class="text-xl font-black mb-4 dark:text-white uppercase">
-          Set Income
+        <h3
+          class="text-xl font-black text-indigo-600 dark:text-white mb-6 uppercase"
+        >
+          Finance Settings
         </h3>
-        <input
-          v-model.number="inputAmount"
-          type="number"
-          class="w-full p-4 bg-gray-100 dark:bg-slate-900 rounded-xl mb-6 outline-none dark:text-white border-2 border-transparent focus:border-indigo-500"
-        />
-        <div class="flex gap-4">
-          <button
-            @click="showModal = false"
-            class="flex-1 font-bold text-gray-400"
-          >
-            Cancel
-          </button>
-          <button
-            @click="saveAndClose"
-            class="flex-1 bg-indigo-600 text-white py-3 rounded-xl font-bold"
-          >
-            Save
-          </button>
+
+        <div class="space-y-5">
+          <div>
+            <label
+              class="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1 block mb-2"
+              >Monthly Income (K)</label
+            >
+            <input
+              v-model.number="tempIncome"
+              type="number"
+              class="w-full p-4 bg-gray-50 dark:bg-slate-900 border-2 border-transparent focus:border-indigo-500 rounded-2xl outline-none dark:text-white font-bold text-xl transition-all"
+            />
+          </div>
+
+          <div>
+            <label
+              class="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1 block mb-2"
+              >Manual Savings (K)</label
+            >
+            <input
+              v-model.number="tempSavings"
+              type="number"
+              class="w-full p-4 bg-gray-50 dark:bg-slate-900 border-2 border-transparent focus:border-indigo-500 rounded-2xl outline-none dark:text-white font-bold text-xl transition-all"
+            />
+          </div>
+
+          <div class="flex gap-3 pt-2">
+            <button
+              @click="showModal = false"
+              type="button"
+              class="flex-1 py-3 text-gray-500 font-bold hover:bg-gray-100 dark:hover:bg-slate-700 rounded-xl transition-colors cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              @click="saveAndClose"
+              type="button"
+              class="flex-1 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-lg hover:bg-indigo-700 transition-all cursor-pointer"
+            >
+              Save All
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="h-24"></div>
+    <div class="h-28 md:h-24"></div>
   </div>
 </template>
-
-<script setup>
-import { ref } from "vue";
-import { useThemeContext } from "../composables/useThemeContext";
-import { useIncome } from "../composables/useIncome"; // Double check this path!
-
-const { isDark, toggleTheme } = useThemeContext();
-const { setIncome } = useIncome();
-
-const showModal = ref(false);
-const inputAmount = ref(0);
-
-// This function will tell us exactly what is happening in the Console
-const openModal = () => {
-  console.log("Button Clicked! showModal was:", showModal.value);
-  showModal.value = true;
-  console.log("showModal is now:", showModal.value);
-};
-
-const saveAndClose = () => {
-  setIncome(Number(inputAmount.value));
-  showModal.value = false;
-};
-</script>
