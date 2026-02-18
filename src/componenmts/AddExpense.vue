@@ -98,7 +98,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useExpense } from "../composables/useComposables";
+import { useExpense } from "../composables/useExpenses";
 import type { Expense } from "../types/types";
 
 const { addExpense } = useExpense();

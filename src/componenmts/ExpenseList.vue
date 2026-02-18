@@ -1,45 +1,50 @@
 <template>
-  <div class="w-full px-6 py-6">
+  <div class="w-full px-2 sm:px-6 py-4 sm:py-6">
     <div
-      class="dark:bg-slate-800 dark:border-gray-700 bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden"
+      class="dark:bg-slate-800 dark:border-gray-700 bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100 overflow-hidden"
     >
-      <div v-if="expenses.length === 0" class="p-20 text-center">
-        <h3 class="text-xl font-bold text-gray-900 dark:text-white">
-          No expenses yet
+      <div
+        v-if="filteredExpenses.length === 0"
+        class="p-10 sm:p-20 text-center"
+      >
+        <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
+          No results found
         </h3>
-        <p class="text-gray-500 dark:text-white">
-          Start by adding your first expense above.
+        <p class="text-sm text-gray-500 dark:text-white">
+          Try changing your filters or search terms.
         </p>
       </div>
 
-      <div v-else class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
+      <div v-else class="overflow-x-auto scrollbar-hide">
+        <table
+          class="w-full text-left border-collapse min-w-[600px] md:min-w-full"
+        >
           <thead>
             <tr
               class="bg-gray-50 border-b border-gray-100 dark:bg-slate-800 dark:border-gray-900"
             >
               <th
-                class="p-4 text-xs font-bold text-gray-400 uppercase tracking-widest dark:text-white"
+                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest dark:text-white"
               >
                 Date
               </th>
               <th
-                class="p-4 text-xs font-bold text-gray-400 uppercase tracking-widest dark:text-white"
+                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest text-center dark:text-white"
               >
                 Category
               </th>
               <th
-                class="p-4 text-xs font-bold text-gray-400 uppercase tracking-widest dark:text-white"
+                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest dark:text-white"
               >
                 Description
               </th>
               <th
-                class="p-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-right dark:text-white"
+                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest text-right dark:text-white"
               >
                 Amount
               </th>
               <th
-                class="p-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-center dark:text-white"
+                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest text-center dark:text-white"
               >
                 Actions
               </th>
@@ -47,35 +52,45 @@
           </thead>
           <tbody class="divide-y divide-gray-50 dark:divide-gray-600">
             <tr
-              v-for="item in expenses"
+              v-for="item in filteredExpenses"
               :key="item.id"
               class="hover:bg-indigo-50/30 transition-colors"
             >
-              <td class="p-4 text-gray-600 dark:text-white">{{ item.date }}</td>
-              <td class="p-4">
+              <td
+                class="p-3 sm:p-4 text-xs sm:text-sm text-gray-600 dark:text-white whitespace-nowrap"
+              >
+                {{ item.date }}
+              </td>
+
+              <td class="p-3 sm:p-4 text-center whitespace-nowrap">
                 <span
-                  class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700 capitalize w-20"
+                  class="inline-block px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-indigo-100 text-indigo-700 capitalize"
                 >
                   {{ item.category }}
                 </span>
               </td>
-              <td class="p-4 text-gray-900 font-medium dark:text-white">
+
+              <td
+                class="p-3 sm:p-4 text-xs sm:text-sm text-gray-900 font-medium dark:text-white min-w-[150px]"
+              >
                 {{ item.description }}
               </td>
+
               <td
-                class="p-4 text-right font-bold text-gray-900 dark:text-white"
+                class="p-3 sm:p-4 text-right font-bold text-xs sm:text-sm text-gray-900 dark:text-white tabular-nums"
               >
                 ${{ item.amount.toFixed(2) }}
               </td>
-              <td class="p-4 text-center">
-                <div class="flex justify-center gap-3">
+
+              <td class="p-3 sm:p-4 text-center">
+                <div class="flex justify-center gap-1 sm:gap-3">
                   <button
                     @click="openEditModal(item)"
-                    class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                    class="p-1.5 sm:p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5"
+                      class="h-4 w-4 sm:h-5 sm:w-5"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -90,11 +105,11 @@
                   </button>
                   <button
                     @click="openDeleteModal(item)"
-                    class="p-2 text-rose-600 hover:bg-rose-50 rounded-lg"
+                    class="p-1.5 sm:p-2 text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5"
+                      class="h-4 w-4 sm:h-5 sm:w-5"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -121,7 +136,7 @@
     >
       <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
         <h3 class="text-xl font-bold text-gray-900">Confirm Deletion</h3>
-        <p class="text-gray-500 mt-2">
+        <p class="text-gray-500 mt-2 text-sm">
           Are you sure you want to delete
           <span class="font-bold text-gray-800"
             >"{{ selectedExpense?.description }}"</span
@@ -130,13 +145,13 @@
         <div class="flex gap-3 mt-6">
           <button
             @click="showDeleteModal = false"
-            class="flex-1 px-4 py-2 bg-gray-100 rounded-xl font-semibold"
+            class="flex-1 px-4 py-2 bg-gray-100 rounded-xl font-semibold text-sm"
           >
             Cancel
           </button>
           <button
             @click="confirmDelete"
-            class="flex-1 px-4 py-2 bg-rose-600 text-white rounded-xl font-semibold"
+            class="flex-1 px-4 py-2 bg-rose-600 text-white rounded-xl font-semibold text-sm"
           >
             Delete
           </button>
@@ -148,31 +163,37 @@
       v-if="showEditModal"
       class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
     >
-      <div class="bg-white rounded-3xl p-8 max-w-lg w-full shadow-xl">
-        <h3 class="text-2xl font-black text-indigo-600 mb-6">EDIT EXPENSE</h3>
-        <form @submit.prevent="saveEdit" class="space-y-4">
+      <div
+        class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 max-w-lg w-full shadow-xl overflow-y-auto max-h-[90vh]"
+      >
+        <h3
+          class="text-xl sm:text-2xl font-black text-indigo-600 mb-4 sm:mb-6 uppercase"
+        >
+          Edit Expense
+        </h3>
+        <form @submit.prevent="saveEdit" class="space-y-3 sm:y-4">
           <input
             v-model="tempExpense.description"
             type="text"
-            class="w-full p-3 border rounded-xl"
+            class="w-full p-2.5 sm:p-3 border rounded-xl text-sm"
             placeholder="Description"
           />
           <input
             v-model.number="tempExpense.amount"
             type="number"
-            class="w-full p-3 border rounded-xl"
+            class="w-full p-2.5 sm:p-3 border rounded-xl text-sm"
             placeholder="Amount"
           />
           <input
             v-model="tempExpense.date"
             type="date"
-            class="w-full p-3 border rounded-xl"
+            class="w-full p-2.5 sm:p-3 border rounded-xl text-sm"
           />
           <select
             v-model="tempExpense.category"
-            class="w-full p-3 border rounded-xl"
+            class="w-full p-2.5 sm:p-3 border rounded-xl text-sm"
           >
-            <option value="food & Dinning ">Food & Dining</option>
+            <option value="food & Dinning">Food & Dining</option>
             <option value="transportation">Transportation</option>
             <option value="shopping">Shopping</option>
             <option value="health">Health</option>
@@ -181,17 +202,17 @@
             <option value="entertainment">Entertainment</option>
             <option value="other">Other</option>
           </select>
-          <div class="flex gap-3 pt-4">
+          <div class="flex gap-2 sm:gap-3 pt-4">
             <button
               type="button"
               @click="showEditModal = false"
-              class="flex-1 py-3 bg-gray-100 rounded-xl font-bold"
+              class="flex-1 py-2.5 sm:py-3 bg-gray-100 rounded-xl font-bold text-sm"
             >
               Cancel
             </button>
             <button
               type="submit"
-              class="flex-1 py-3 bg-indigo-600 text-white rounded-xl font-bold"
+              class="flex-1 py-2.5 sm:py-3 bg-indigo-600 text-white rounded-xl font-bold text-sm"
             >
               Save Changes
             </button>
@@ -204,10 +225,12 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import { useExpense } from "../composables/useComposables";
+import { useExpense } from "../composables/useExpenses";
+import { useFilter } from "../composables/useFilters";
 import type { Expense } from "../types/types";
 
 const { expenses, removeExpense, updateExpense } = useExpense();
+const { filteredExpenses } = useFilter(expenses);
 
 const showDeleteModal = ref(false);
 const showEditModal = ref(false);

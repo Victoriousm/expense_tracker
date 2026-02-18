@@ -18,13 +18,14 @@
         <div class="flex flex-col gap-2">
           <label
             class="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1 dark:text-white"
-            >Keyword Search</label
+            >Search</label
           >
           <div class="relative">
             <input
+              v-model="searchQuery"
               type="text"
               placeholder="🔍 Search for expense..."
-              class="w-full p-4 pl-5 border border-gray-100 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+              class="w-full p-4 border border-gray-100 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
             />
           </div>
         </div>
@@ -36,8 +37,10 @@
               >Category</label
             >
             <select
-              class="p-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer"
+              v-model="selectedCategory"
+              class="h-12 p-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer"
             >
+              <option value="All">All Categories</option>
               <option value="food & Dinning ">Food & Dining</option>
               <option value="transportation">Transportation</option>
               <option value="shopping">Shopping</option>
@@ -55,8 +58,9 @@
               >From Date</label
             >
             <input
+              v-model="fromDate"
               type="date"
-              class="p-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-indigo-500 outline-none"
+              class="h-12 p-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-indigo-500 outline-none"
             />
           </div>
 
@@ -66,8 +70,9 @@
               >To Date</label
             >
             <input
+              v-model="toDate"
               type="date"
-              class="p-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-indigo-500 outline-none"
+              class="h-12 p-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-indigo-500 outline-none"
             />
           </div>
 
@@ -77,7 +82,8 @@
               >Sort By</label
             >
             <select
-              class="p-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer"
+              v-model="sortBy"
+              class="h-12 p-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer"
             >
               <option value="date-desc">Date (Newest)</option>
               <option value="date-asc">Date (Oldest)</option>
@@ -92,6 +98,7 @@
 
       <div class="flex justify-end mt-6">
         <button
+          @click="clearFilters"
           class="text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-colors dark:text-white"
         >
           Clear All Filters
@@ -100,3 +107,19 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useFilter } from "../composables/useFilters";
+import { useExpense } from "../composables/useExpenses";
+
+// We need the expenses from the store to initialize the filter logic
+const { expenses } = useExpense();
+const {
+  searchQuery,
+  selectedCategory,
+  fromDate,
+  toDate,
+  sortBy,
+  clearFilters,
+} = useFilter(expenses);
+</script>
