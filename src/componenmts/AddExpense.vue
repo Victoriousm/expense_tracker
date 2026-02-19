@@ -106,7 +106,7 @@ const { addExpense } = useExpense();
 // 1. Reactive variables for form inputs
 const description = ref("");
 const amount = ref<number>(0);
-const date = ref(new Date().toISOString().split("T")[0]); // Default to today's date
+const date = ref(new Date().toISOString().split("T")[0]);
 
 // Using a type-safe ref for category
 const category = ref<Expense["category"]>("other");

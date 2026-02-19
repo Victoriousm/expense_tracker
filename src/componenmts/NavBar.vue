@@ -1,33 +1,44 @@
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { ref, Ref } from "vue";
 import { useThemeContext } from "../composables/useThemeContext";
 import { useIncome } from "../composables/useIcomeSaving";
 
 const { isDark, toggleTheme } = useThemeContext();
+const { setIncome, setSavings, addIncomeToBalance, income, currentAccount } =
+  useIncome();
 
-const { setIncome, setSavings, savings, income } = useIncome();
+// Strictly typed refs for the modal state
+const showModal: Ref<boolean> = ref(false);
+const tempIncome: Ref<number> = ref(0);
+const tempSavings: Ref<number> = ref(0);
 
-const showModal = ref(false);
-const tempIncome = ref(0);
-const tempSavings = ref(0);
-
-const openModal = () => {
+const openModal = (): void => {
   tempIncome.value = income.value;
+  tempSavings.value = 0;
   showModal.value = true;
 };
 
-const saveAndClose = () => {
+const saveAndClose = (): void => {
   try {
-    setIncome(Number(tempIncome.value));
+    const newIncomeValue: number = Number(tempIncome.value);
+    const newSavingsValue: number = Number(tempSavings.value);
 
-    const updatedSavings = (savings.value || 0) + Number(tempSavings.value);
+    // Update the base income variable
+    setIncome(newIncomeValue);
 
-    setSavings(updatedSavings);
+    // Accumulate the income into the Current Account
+    addIncomeToBalance(newIncomeValue);
 
+    // Add the savings amount to the total
+    setSavings(newSavingsValue);
+
+    // Reset local state and close the modal
     tempSavings.value = 0;
     showModal.value = false;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Failed to save finance settings:", error);
+    // Safety fallback to close modal
+    showModal.value = false;
   }
 };
 </script>
@@ -48,7 +59,7 @@ const saveAndClose = () => {
         </p>
       </div>
 
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-6">
         <button
           @click="openModal"
           type="button"

@@ -110,7 +110,7 @@
 
 <script setup lang="ts">
 import { useFilter } from "../composables/useFilters";
-import { useExpense } from "../composables/useExpenses";
+import { useExpense } from "../composables/useComposables";
 
 // We need the expenses from the store to initialize the filter logic
 const { expenses } = useExpense();

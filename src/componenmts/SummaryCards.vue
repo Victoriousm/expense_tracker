@@ -3,18 +3,21 @@ import { computed } from "vue";
 import { useIncome } from "../composables/useIcomeSaving";
 import { useExpense } from "../composables/useExpenses";
 
-const { income, savings } = useIncome();
+const { income, savings, currentAccount } = useIncome();
 const { expenses } = useExpense();
 
-const totalExpenses = computed(() => {
-  return expenses.value.reduce((acc, item) => acc + item.amount, 0);
+const totalExpenses = computed((): number => {
+  return expenses.value.reduce(
+    (acc: number, item: { amount: number }) => acc + item.amount,
+    0,
+  );
 });
 
-const totalBalance = computed(() => {
-  return income.value - totalExpenses.value - savings.value;
+const totalBalance = computed((): number => {
+  return currentAccount.value - totalExpenses.value - savings.value;
 });
 
-const formatCurrency = (val: number) => {
+const formatCurrency = (val: number): string => {
   return val.toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

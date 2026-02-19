@@ -1,29 +1,45 @@
-import { ref, watch } from "vue";
+import { ref, watch, Ref } from "vue";
 
-const savedIncome = localStorage.getItem("user_income");
-const savedSavings = localStorage.getItem("user_savings");
-const savedAccount = localStorage.getItem("current_account");
+// Retrieve and parse initial values
+const savedIncome: string | null = localStorage.getItem("user_income");
+const savedSavings: string | null = localStorage.getItem("user_savings");
+const savedCurrentAccount: string | null =
+  localStorage.getItem("current_account");
 
-const income = ref(savedIncome ? parseFloat(savedIncome) : 0);
-const savings = ref(savedSavings ? parseFloat(savedSavings) : 0);
-const currentAccount = ref(savedAccount ? parseFloat(savedAccount) : 0);
+// Initialize refs with explicit number types
+const income: Ref<number> = ref(savedIncome ? parseFloat(savedIncome) : 0);
+const savings: Ref<number> = ref(savedSavings ? parseFloat(savedSavings) : 0);
+const currentAccount: Ref<number> = ref(
+  savedCurrentAccount ? parseFloat(savedCurrentAccount) : 0,
+);
 
 export function useIncome() {
-  watch(income, (val) => localStorage.setItem("user_income", val.toString()));
-  watch(savings, (val) => localStorage.setItem("user_savings", val.toString()));
-  watch(currentAccount, (val) =>
+  // Watchers to sync with localStorage
+  watch(income, (val: number) =>
+    localStorage.setItem("user_income", val.toString()),
+  );
+  watch(savings, (val: number) =>
+    localStorage.setItem("user_savings", val.toString()),
+  );
+  watch(currentAccount, (val: number) =>
     localStorage.setItem("current_account", val.toString()),
   );
 
-  const setIncome = (amount: number) => {
+  // Updates the base monthly income reference
+  const setIncome = (amount: number): void => {
     income.value = amount;
   };
 
-  const setSavings = (amount: number) => {
+  // Adds to the total savings bucket
+  const setSavings = (amount: number): void => {
     savings.value += amount;
   };
 
-  const setAccountBalance = (amount: number) => {
+  /**
+   * ADDS new income to the current account balance.
+   * This ensures the "already saved" value is preserved.
+   */
+  const addIncomeToBalance = (amount: number): void => {
     currentAccount.value += amount;
   };
 
@@ -33,6 +49,6 @@ export function useIncome() {
     currentAccount,
     setIncome,
     setSavings,
-    setAccountBalance,
+    addIncomeToBalance,
   };
 }
