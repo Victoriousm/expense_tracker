@@ -62,23 +62,30 @@ const saveAndClose = (): void => {
           manage your finances with ease
         </p>
       </div>
+      <div
+        class="grid grid-cols-3 sm:flex items-center w-full sm:w-auto gap-4 sm:gap-6"
+      >
+        <div class="sm:hidden"></div>
 
-      <div class="flex items-center gap-6">
-        <button
-          @click="openModal"
-          type="button"
-          class="bg-indigo-700 hover:bg-indigo-800 text-white px-3 py-1.5 sm:px-5 sm:py-2 rounded-lg text-sm sm:text-base transition-all shadow-md active:scale-95 cursor-pointer"
-        >
-          Enter Income & Savings
-        </button>
+        <div class="flex justify-center sm:block">
+          <button
+            @click="openModal"
+            type="button"
+            class="bg-indigo-700 hover:bg-indigo-800 text-white px-3 py-1.5 sm:px-5 sm:py-2 rounded-lg text-sm sm:text-base transition-all shadow-md active:scale-95 cursor-pointer whitespace-nowrap"
+          >
+            Enter Income & Savings
+          </button>
+        </div>
 
-        <button
-          @click="toggleTheme"
-          type="button"
-          class="cursor-pointer text-xl sm:text-2xl hover:text-green-700 dark:hover:text-green-400 transition-all duration-200 active:scale-90 px-2 select-none"
-        >
-          {{ isDark ? "☀️" : "⏾" }}
-        </button>
+        <div class="flex justify-end sm:block">
+          <button
+            @click="toggleTheme"
+            type="button"
+            class="cursor-pointer text-xl sm:text-2xl hover:text-green-700 dark:hover:text-green-400 transition-all duration-200 active:scale-90 px-2 select-none"
+          >
+            {{ isDark ? "☀️" : "⏾" }}
+          </button>
+        </div>
       </div>
     </nav>
 

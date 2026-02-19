@@ -68,7 +68,7 @@ const chartOptions = {
     },
   },
   // to give it space inside
-  cutout: "10%",
+  cutout: "0%",
 };
 </script>
 
