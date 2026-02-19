@@ -39,7 +39,7 @@ const formatCurrency = (val: number): string => {
 
 <template>
   <div
-    class="w-full px-4 sm:px-6 lg:px-12 py-6 sm:py-8 pt-28 sm:pt-20 lg:pt-24 max-w-[1600px] mx-auto"
+    class="w-full px-4 sm:px-6 lg:px-12 pt-12 py-6 sm:py-8 sm:pt-20 lg:pt-24 max-w-[1600px] mx-auto"
   >
     <div
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12"
