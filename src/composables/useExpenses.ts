@@ -28,6 +28,12 @@ export function useExpense() {
     expenses.value = expenses.value.filter((e) => e.id !== id);
     syncStorage();
   };
+  const updateExpense = (id: string, updatedExpense: Expense): void => {
+    expenses.value = expenses.value.map((expense) =>
+      expense.id === id ? updatedExpense : expense,
+    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(expenses.value));
+  };
 
   const clearExpenses = (): void => {
     // We modify the value of the existing ref
@@ -38,6 +44,7 @@ export function useExpense() {
     expenses, // Return the same ref to everyone
     addExpense,
     removeExpense,
+    updateExpense,
     clearExpenses,
   };
 }
