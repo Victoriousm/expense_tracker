@@ -164,10 +164,10 @@
       class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
     >
       <div
-        class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 max-w-lg w-full shadow-xl overflow-y-auto max-h-[90vh]"
+        class="dark:bg-gray-800 bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 max-w-lg w-full shadow-xl overflow-y-auto max-h-[90vh]"
       >
         <h3
-          class="text-xl sm:text-2xl font-black text-indigo-600 mb-4 sm:mb-6 uppercase"
+          class="dark:text-white text-xl sm:text-2xl font-black text-indigo-600 mb-4 sm:mb-6 uppercase"
         >
           Edit Expense
         </h3>
@@ -175,23 +175,23 @@
           <input
             v-model="tempExpense.description"
             type="text"
-            class="w-full p-2.5 sm:p-3 border rounded-xl text-sm"
+            class="dark:text-white w-full p-2.5 sm:p-3 border rounded-xl text-sm dark:border-gray-600"
             placeholder="Description"
           />
           <input
             v-model.number="tempExpense.amount"
             type="number"
-            class="w-full p-2.5 sm:p-3 border rounded-xl text-sm"
+            class="dark:text-white w-full p-2.5 sm:p-3 border rounded-xl text-sm dark:border-gray-600"
             placeholder="Amount"
           />
           <input
             v-model="tempExpense.date"
             type="date"
-            class="w-full p-2.5 sm:p-3 border rounded-xl text-sm"
+            class="dark:text-white w-full p-2.5 sm:p-3 border rounded-xl text-sm dark:border-gray-600"
           />
           <select
             v-model="tempExpense.category"
-            class="w-full p-2.5 sm:p-3 border rounded-xl text-sm"
+            class="dark:text-white w-full p-2.5 sm:p-3 border rounded-xl text-sm dark:border-gray-600"
           >
             <option value="food & Dinning">Food & Dining</option>
             <option value="transportation">Transportation</option>

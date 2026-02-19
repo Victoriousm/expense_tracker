@@ -1,25 +1,25 @@
 <template>
-  <div class="w-full px-6 py-6">
+  <div class="w-full px-4 sm:px-6 lg:px-12 py-4">
     <section
-      class="dark:border-gray-700 w-full mx-auto p-6 bg-white rounded-3xl shadow-sm border border-gray-100 my-10 dark:bg-slate-800"
+      class="w-full mx-auto p-5 sm:p-8 lg:p-10 bg-white rounded-3xl shadow-sm border border-gray-100 my-4 sm:my-10 dark:bg-slate-800 dark:border-gray-700 transition-colors"
     >
-      <div class="text-center mb-8">
+      <div class="text-center mb-6 sm:mb-8">
         <h2
-          class="text-3xl font-black text-indigo-600 uppercase tracking-tight dark:text-white"
+          class="text-2xl sm:text-3xl font-black text-indigo-600 uppercase tracking-tight dark:text-white"
         >
           ADD A NEW EXPENSE
         </h2>
-        <p class="text-gray-500 mt-2 dark:text-white">
+        <p class="text-xs sm:text-sm text-gray-500 mt-2 dark:text-gray-300">
           Track your spending and save more
         </p>
       </div>
 
-      <form @submit.prevent="handleSubmit" class="space-y-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="flex flex-col gap-2">
+      <form @submit.prevent="handleSubmit" class="space-y-4 sm:space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div class="flex flex-col gap-1.5 sm:gap-2">
             <label
               for="desc"
-              class="text-sm font-semibold text-gray-700 dark:text-white dark:font-bold"
+              class="text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-200"
               >Description</label
             >
             <input
@@ -27,66 +27,66 @@
               id="desc"
               type="text"
               placeholder="e.g. Weekly Groceries"
-              class="dark:border-gray-700 dark:text-white w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+              class="w-full p-3 sm:p-3.5 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all dark:text-white text-sm sm:text-base"
               required
             />
           </div>
 
-          <div class="flex flex-col gap-2">
+          <div class="flex flex-col gap-1.5 sm:gap-2">
             <label
-              class="text-sm font-semibold text-gray-700 dark:text-white dark:font-bold"
+              class="text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-200"
               >Amount (ZMW)</label
             >
             <input
               v-model.number="amount"
               type="number"
+              step="0.01"
               placeholder="0.00"
-              class="dark:border-gray-700 dark:text-white w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+              class="w-full p-3 sm:p-3.5 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all dark:text-white text-sm sm:text-base"
               required
             />
           </div>
 
-          <div class="flex flex-col gap-2">
+          <div class="flex flex-col gap-1.5 sm:gap-2">
             <label
-              class="text-sm font-semibold text-gray-700 dark:text-white dark:font-bold"
+              class="text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-200"
               >Date</label
             >
             <input
               v-model="date"
               type="date"
-              class="dark:border-gray-700 dark:text-white w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+              class="w-full p-3 sm:p-3.5 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all dark:text-white text-sm sm:text-base"
               required
             />
           </div>
 
-          <div class="flex flex-col gap-2">
+          <div class="flex flex-col gap-1.5 sm:gap-2">
             <label
               for="category"
-              class="text-sm font-semibold text-gray-700 dark:text-white dark:font-bold"
+              class="text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-200"
               >Category</label
             >
             <select
               v-model="category"
               id="category"
-              class="dark:border-gray-700 w-full p-3 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all cursor-pointer dark:bg-slate-800 dark:text-white"
+              class="w-full p-3 sm:p-3.5 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all cursor-pointer dark:text-white text-sm sm:text-base appearance-none"
               required
             >
-              <option value="food & Dinning ">Food & Dining</option>
+              <option value="food & Dinning">Food & Dining</option>
               <option value="transportation">Transportation</option>
               <option value="shopping">Shopping</option>
               <option value="health">Health</option>
               <option value="bills & utilities">Bills & Utilities</option>
-              <option value="healthcare">Healthcare</option>
               <option value="entertainment">Entertainment</option>
               <option value="other">Other</option>
             </select>
           </div>
         </div>
 
-        <div class="flex justify-center pt-4">
+        <div class="flex justify-center pt-4 sm:pt-6">
           <button
             type="submit"
-            class="dark:bg-indigo-700 dark:shadow-none w-full md:w-auto px-10 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95"
+            class="w-full md:w-auto px-12 py-3.5 sm:py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-2xl shadow-xl shadow-indigo-100 dark:shadow-none transition-all transform active:scale-95 uppercase tracking-widest text-xs sm:text-sm"
           >
             Add Expense
           </button>
@@ -103,19 +103,14 @@ import type { Expense } from "../types/types";
 
 const { addExpense } = useExpense();
 
-// 1. Reactive variables for form inputs
 const description = ref("");
-const amount = ref<number>(0);
+const amount = ref<number | null>(null); // Changed to null for better placeholder behavior
 const date = ref(new Date().toISOString().split("T")[0]);
-
-// Using a type-safe ref for category
 const category = ref<Expense["category"]>("other");
 
 const handleSubmit = () => {
-  // Simple validation to prevent empty submissions
-  if (!description.value || amount.value <= 0) return;
+  if (!description.value || !amount.value || amount.value <= 0) return;
 
-  // Passing the data directly to the composable
   addExpense({
     description: description.value,
     amount: amount.value,
@@ -123,9 +118,9 @@ const handleSubmit = () => {
     category: category.value,
   });
 
-  // Resetting fields after successful add
+  // Clear inputs
   description.value = "";
-  amount.value = 0;
+  amount.value = null;
   category.value = "other";
 };
 </script>

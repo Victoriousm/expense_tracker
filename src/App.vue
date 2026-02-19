@@ -4,7 +4,7 @@ import SummaryCards from "./componenmts/SummaryCards.vue";
 import AddExpense from "./componenmts/AddExpense.vue";
 import FilterAndSearch from "./componenmts/FilterAndSearch.vue";
 import ExpenseList from "./componenmts/ExpenseList.vue";
-//some script
+import TheFooter from "./componenmts/TheFooter.vue";
 </script>
 
 <template>
@@ -13,4 +13,5 @@ import ExpenseList from "./componenmts/ExpenseList.vue";
   <AddExpense />
   <FilterAndSearch />
   <ExpenseList />
+  <TheFooter />
 </template>

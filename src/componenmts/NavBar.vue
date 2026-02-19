@@ -2,10 +2,12 @@
 import { ref, Ref } from "vue";
 import { useThemeContext } from "../composables/useThemeContext";
 import { useIncome } from "../composables/useIcomeSaving";
+import { useExpense } from "../composables/useExpenses";
 
 const { isDark, toggleTheme } = useThemeContext();
 const { setIncome, setSavings, addIncomeToBalance, income, currentAccount } =
   useIncome();
+const { clearExpenses } = useExpense();
 
 // Strictly typed refs for the modal state
 const showModal: Ref<boolean> = ref(false);
@@ -22,6 +24,8 @@ const saveAndClose = (): void => {
   try {
     const newIncomeValue: number = Number(tempIncome.value);
     const newSavingsValue: number = Number(tempSavings.value);
+
+    clearExpenses();
 
     // Update the base income variable
     setIncome(newIncomeValue);

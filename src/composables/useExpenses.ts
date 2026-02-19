@@ -1,47 +1,49 @@
 import { ref, Ref } from "vue";
 import { Expense } from "../types/types";
 
-const STORAGE_KEY = "expenses";
+const STORAGE_KEY = "expenses"; // This is the single source of truth
 
-// This MUST be outside the function to be shared across all components
+// Shared state outside the function
 const expenses: Ref<Expense[]> = ref<Expense[]>(
   JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"),
 );
 
 export function useExpense() {
-  // Helper to ensure we always use the same key
-  const syncStorage = (): void => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(expenses.value));
+  // STRICT HELPER: Ensures we always use the correct STORAGE_KEY
+  const syncToLocalStorage = (data: Expense[]): void => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   };
 
   const addExpense = (expense: Omit<Expense, "id">): void => {
     const newExpense: Expense = {
       ...expense,
-      // Ensure id is a string to match your removeExpense type
       id: crypto.randomUUID(),
     };
     expenses.value.push(newExpense);
-    syncStorage();
+    syncToLocalStorage(expenses.value);
   };
 
   const removeExpense = (id: string): void => {
     expenses.value = expenses.value.filter((e) => e.id !== id);
-    syncStorage();
-  };
-  const updateExpense = (id: string, updatedExpense: Expense): void => {
-    expenses.value = expenses.value.map((expense) =>
-      expense.id === id ? updatedExpense : expense,
-    );
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(expenses.value));
+    syncToLocalStorage(expenses.value);
   };
 
+  const updateExpense = (id: string, updatedExpense: Expense): void => {
+    expenses.value = expenses.value.map((e) =>
+      e.id === id ? updatedExpense : e,
+    );
+    syncToLocalStorage(expenses.value);
+  };
+
+  // FIXED: Now uses the same STORAGE_KEY helper
   const clearExpenses = (): void => {
-    // We modify the value of the existing ref
     expenses.value = [];
+    syncToLocalStorage([]); // Wipes the "expenses" key specifically
+    console.log("Expenses wiped from storage key:", STORAGE_KEY);
   };
 
   return {
-    expenses, // Return the same ref to everyone
+    expenses,
     addExpense,
     removeExpense,
     updateExpense,

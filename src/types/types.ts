@@ -4,7 +4,7 @@ export interface Expense {
   amount: number;
   date: string;
   category:
-    | "food & Dinning "
+    | "food & Dinning"
     | "transportation"
     | "shopping"
     | "health"
