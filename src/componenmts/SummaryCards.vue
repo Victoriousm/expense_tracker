@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useIncome } from "../composables/useIcomeSaving";
 import { useExpense } from "../composables/useExpenses";
 import { useResetFinance } from "../composables/useFiananceReset";
@@ -14,6 +14,11 @@ const { resetAllData } = useResetFinance();
 const { saveMonthlySnapshot, selectedMonth } = useFinanceTracker();
 
 const isConfirmingReset = ref<boolean>(false);
+
+// Watch modal state to prevent background scroll
+watch(isConfirmingReset, (isOpen) => {
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
 
 const totalExpenses = computed((): number => {
   return expenses.value

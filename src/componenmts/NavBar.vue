@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, Ref } from "vue";
+import { ref, Ref, watch } from "vue";
 import { useThemeContext } from "../composables/useThemeContext";
 import { useIncome } from "../composables/useIcomeSaving";
 import { useExpense } from "../composables/useExpenses";
@@ -15,6 +15,11 @@ const { saveMonthlySnapshot, selectedMonth } = useFinanceTracker();
 const showModal: Ref<boolean> = ref(false);
 const tempIncome: Ref<number> = ref(0);
 const tempSavings: Ref<number> = ref(0);
+
+// Watch modal state to prevent background scroll
+watch(showModal, (isOpen) => {
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
 
 const openModal = (): void => {
   tempIncome.value = income.value;

@@ -2,7 +2,7 @@
 import { useFinanceTracker } from "../composables/useFinanceTracker";
 import { useIncome } from "../composables/useIcomeSaving";
 import { useExpense } from "../composables/useExpenses";
-import { computed, ref } from "vue"; // Added ref
+import { computed, ref, watch } from "vue"; // Added watch
 
 const {
   isModalOpen,
@@ -14,6 +14,11 @@ const {
 } = useFinanceTracker();
 
 const { expenses } = useExpense();
+
+// Watch modal state to prevent background scroll
+watch(isModalOpen, (isOpen) => {
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
 
 // State for confirmation modals
 const isConfirmingMonth = ref(false);
@@ -58,7 +63,7 @@ const formatCurrency = (val: number) =>
     </span>
 
     <Transition name="slide-up">
-      <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
+      <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center sm:items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/40 backdrop-blur-md" @click="toggleModal"></div>
 
         <div
