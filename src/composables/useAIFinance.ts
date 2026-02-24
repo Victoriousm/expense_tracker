@@ -1,4 +1,3 @@
-// composables/useAIFinance.ts
 import { ref } from "vue";
 import { GoogleGenAI } from "@google/genai";
 
@@ -7,7 +6,7 @@ export function useAIFinance() {
   const messages = ref<{ role: "user" | "ai"; content: string }[]>([]);
 
   // ⚠️ Security Tip: In production, use environment variables (import.meta.env.VITE_GEMINI_KEY)
-  const apiKey = "AIzaSyAQxeHaQhKQPiG-RdWjounQll75j2PMn6o";
+  const apiKey = "AIzaSyCGFmn6BZoK4MnR8WJvX0q6OQ-4prFQ3IQ";
 
   const askAI = async (
     userPrompt: string,
