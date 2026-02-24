@@ -7,6 +7,7 @@ import ExpenseList from "./componenmts/ExpenseList.vue";
 import TheFooter from "./componenmts/TheFooter.vue";
 /* import ExpenseHistory from "./componenmts/ExpenseHistory.vue"; */
 import FinanceTracker from "./componenmts/FinanceTracker.vue";
+import AIFinancailAdvisor from "./componenmts/AIFinancailAdvisor.vue";
 </script>
 
 <template>
@@ -17,5 +18,6 @@ import FinanceTracker from "./componenmts/FinanceTracker.vue";
   <FinanceTracker />
   <FilterAndSearch />
   <ExpenseList />
+  <AIFinancailAdvisor />
   <TheFooter />
 </template>
